@@ -4,20 +4,29 @@
         <link href="{% static '/css/videojs/video-js.css' %}" rel="stylesheet">
         <link href="{% static '/css/bootstrap.min.css' %}" rel="stylesheet">
         <link href="{% static '/css/bootstrap-theme.min.css' %}" rel="stylesheet">
+        <link href="{% static '/css/camera.css' %}" rel="stylesheet">
         
         <script src="{% static '/js/videojs/video.js' %}"></script>
         <script src="{% static '/js/videojs/videojs-flash.js' %}"></script>
         <script src="{% static '/js/videojs/videojs-contrib-hls.js' %}"></script>
         <script src="{% static '/js/jquery-3.2.1.min.js' %}"></script>
         <script src="{% static '/js/bootstrap.min.js' %}"></script>
+        <script src="{% static '/js/camera.js' %}"></script>
     </head>
     <body>
-        <video id="example-video" width="640" height="360" class="video-js vjs-default-skin" controls autoplay>
-            <source src="http://192.168.0.160/hls/index.m3u8" type="application/x-mpegURL"/>
-        </video>
-        <script>
-            var player = videojs('example-video');
-            player.play();
-        </script>
+        <div class="jumbotron text-center">
+            <h1>Babytron monitor</h1>
+        </div>
+        <div class="container">
+            <div class="center">
+                <video id="camera-stream" width="640" height="360" class="video-js vjs-default-skin" controls autoplay>
+                    <source src="http://192.168.0.160/hls/index.m3u8" type="application/x-mpegURL"/>
+                </video>
+                <div class="btn-wrapper">
+                    <button type="button" class="btn btn-success" onclick="put('/camera/start/')">Start</button>
+                    <button type="button" class="btn btn-danger" onclick="put('/camera/stop/')">Stop</button>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
