@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.http import HttpResponse 
 from django.http import JsonResponse 
 
+from .picam import start_picam
 from .picam import stop_picam
 
 class CameraHomePage(TemplateView):
@@ -15,6 +16,7 @@ class CameraHomePage(TemplateView):
 
 def start(request):
     if request.method == 'PUT':
+        start_picam()
         return JsonResponse({'message': 'Started!'})
     else:
         return HttpResponse(status=405) 

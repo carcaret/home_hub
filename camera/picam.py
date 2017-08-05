@@ -1,17 +1,23 @@
+from os import kill
 from signal import SIGKILL
-from subprocess import check_output,CalledProcessError
+from subprocess import call,check_output,CalledProcessError
+
+def start_picam():
+    pids = get_pids('picam')
+    if not pids:
+        call('picam --alsadev hw:1,0 -w 1280 -h 720 -f 30 -o /run/shm/hls', shell=True)
 
 def stop_picam():
     pids = get_pids('picam')
     for pid in pids:
-        os.kill(pid, SIGKILL)
+        kill(pid, SIGKILL)
 
 def get_pids(name):
     pids = []
     try:
-        pids = map(int, check_output(["pidof", name]).split())
-    except CalledProcessError as e:
-        print(e)
+        pids = map(int, check_output(['pidof', name]).split())
+    except CalledProcessError as ex:
+        print(ex)
     return pids
         
         

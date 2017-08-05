@@ -13,11 +13,20 @@ $(document).ready(function() {
     videojs('camera-stream').play();
 });
 
-function put(url) {
+function start() {
+    put('/camera/start/', function() { videojs('camera-stream').play() });
+}
+
+function stop() {
+    put('/camera/stop/', function() { videojs('camera-stream').pause() });
+}
+
+function put(url, callback) {
     $.ajax({
         url: url,
         type: 'PUT',
         success: function(data) {
+            callback();
             alert(data.message);
         }
     });
