@@ -19,9 +19,7 @@
         </div>
         <div class="container">
             <div class="center">
-                <video id="camera-stream" width="640" height="360" class="video-js vjs-default-skin" controls autoplay>
-                    <source src="http://192.168.0.160/hls/index.m3u8" type="application/x-mpegURL"/>
-                </video>
+                <div id="stream-wrapper"></div>
                 <div class="btn-wrapper">
                     <button type="button" class="btn btn-success" onclick="start()">Start</button>
                     <button type="button" class="btn btn-danger" onclick="stop()">Stop</button>

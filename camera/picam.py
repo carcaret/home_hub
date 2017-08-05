@@ -5,7 +5,7 @@ from subprocess import call,check_output,CalledProcessError
 def start_picam():
     pids = get_pids('picam')
     if not pids:
-        call('picam --alsadev hw:1,0 -w 1280 -h 720 -f 30 -o /run/shm/hls', shell=True)
+        call('picam --alsadev hw:1,0 -w 1280 -h 720 -f 30 -o /run/shm/hls &', shell=True)
 
 def stop_picam():
     pids = get_pids('picam')
