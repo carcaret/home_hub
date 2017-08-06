@@ -1,19 +1,20 @@
 from django.utils.decorators import method_decorator 
-from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.decorators.csrf import ensure_csrf_cookie 
 from django.views.generic import TemplateView
 from django.shortcuts import render
-from django.http import HttpResponse 
-from django.http import JsonResponse 
+from django.http import HttpResponse,JsonResponse
+
+from home_hub.security import basic_auth_required
 
 from .picam import start_picam
 from .picam import stop_picam
 
-class CameraHomePage(TemplateView):
-    
-    @method_decorator(ensure_csrf_cookie)
-    def get(self, request, **kwargs):
-        return render(request, 'index.html', {})
+@basic_auth_required 
+@ensure_csrf_cookie
+def index(request, *args, **kwargs):
+    return render(request, 'index.html', {})
 
+@basic_auth_required
 def start(request):
     if request.method == 'PUT':
         start_picam()
@@ -21,6 +22,7 @@ def start(request):
     else:
         return HttpResponse(status=405) 
 
+@basic_auth_required
 def stop(request):
     if request.method == 'PUT':
         stop_picam()
