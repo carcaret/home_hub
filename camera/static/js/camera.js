@@ -11,30 +11,20 @@ $(document).ready(function() {
     });
 });
 
-var videoHtml = '<video id="camera-stream" width="640" height="360" class="video-js vjs-default-skin" controls autoplay>' +
-                    '<source src="http://192.168.0.160/hls/index.m3u8" type="application/x-mpegURL"/>' +
-                '</video>';
-
 function start() {
-    if (!isVideoPresent()) {
-        put('/camera/start/', async function() { 
-                $('#stream-wrapper').html(videoHtml);
-                await sleep(2000);
-                videojs('camera-stream'); 
+    put('/camera/start/', function() { 
+            var video = document.getElementById('camera-stream');
+            var hls = new Hls();
+            hls.loadSource('http://192.168.0.160/hls/index.m3u8');
+            hls.attachMedia(video);
+            hls.on(Hls.Events.MANIFEST_PARSED,function() {
+                video.play();
             });
-    }
-}
-
-function sleep(ms) {
-      return new Promise(resolve => setTimeout(resolve, ms));
+        });
 }
 
 function stop() {
-    put('/camera/stop/', function() { 
-        if (isVideoPresent()) {
-            videojs('camera-stream').dispose();
-        }
-    });
+    put('/camera/stop/', function() {});
 }
 
 function isVideoPresent() {
