@@ -12,6 +12,7 @@ def start_picam():
 def stop_picam():
     pids = get_pids('picam')
     for pid in pids:
+        print('Killing process {}'.format(pid))
         kill(pid, SIGKILL)
 
 def get_pids(name):

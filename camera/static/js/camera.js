@@ -17,15 +17,16 @@ var videoHtml = '<video id="camera-stream" width="640" height="360" class="video
 
 function start() {
     if (!isVideoPresent()) {
-        put('/camera/start/', function() { 
+        put('/camera/start/', async function() { 
                 $('#stream-wrapper').html(videoHtml);
-                videojs('camera-stream').play(); 
+                await sleep(2000);
+                videojs('camera-stream'); 
             });
     }
 }
 
-function isVideoPresent() {
-    return $('#stream-wrapper').children().length > 0;
+function sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 function stop() {
@@ -34,6 +35,10 @@ function stop() {
             videojs('camera-stream').dispose();
         }
     });
+}
+
+function isVideoPresent() {
+    return $('#stream-wrapper').children().length > 0;
 }
 
 function put(url, callback) {
