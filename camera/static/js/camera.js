@@ -16,14 +16,24 @@ var videoHtml = '<video id="camera-stream" width="640" height="360" class="video
                 '</video>';
 
 function start() {
-    put('/camera/start/', function() { 
-            $('#stream-wrapper').html(videoHtml);
-            videojs('camera-stream').play(); 
-        });
+    if (!isVideoPresent()) {
+        put('/camera/start/', function() { 
+                $('#stream-wrapper').html(videoHtml);
+                videojs('camera-stream').play(); 
+            });
+    }
+}
+
+function isVideoPresent() {
+    return $('#stream-wrapper').children().length > 0;
 }
 
 function stop() {
-    put('/camera/stop/', function() { videojs('camera-stream').dispose(); });
+    put('/camera/stop/', function() { 
+        if (isVideoPresent()) {
+            videojs('camera-stream').dispose();
+        }
+    });
 }
 
 function put(url, callback) {

@@ -119,3 +119,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+PICAM_COMMAND = 'picam --alsadev hw:1,0 -w 1280 -h 720 -f 30 -o /run/shm/hls &'
