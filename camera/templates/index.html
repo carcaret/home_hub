@@ -12,6 +12,13 @@
         <script src="{% static '/js/jquery-3.2.1.min.js' %}"></script>
         <script src="{% static '/js/bootstrap.min.js' %}"></script>
         <script src="{% static '/js/camera.js' %}"></script>
+
+        <script>
+            var videoHtml = 
+            '<video id="camera-stream" width="640" height="360" class="video-js vjs-default-skin" controls autoplay>' +
+            '<source src="{{ stream_url  }}" type="application/x-mpegURL"/>' +
+            '</video>';
+        </script>
     </head>
     <body>
         <div class="jumbotron text-center">

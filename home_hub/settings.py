@@ -126,4 +126,5 @@ STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 
+STREAM_URL = 'http://raspberrypi/hls/index.m3u8'
 PICAM_COMMAND = 'picam --alsadev hw:1,0 -w 1280 -h 720 -f 30 -o /run/shm/hls &'

@@ -3,6 +3,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.generic import TemplateView
 from django.shortcuts import render
 from django.http import HttpResponse,JsonResponse
+from django.conf import settings
 
 from home_hub.security import basic_auth_required
 
@@ -12,7 +13,7 @@ from .picam import stop_picam
 @basic_auth_required 
 @ensure_csrf_cookie
 def index(request, *args, **kwargs):
-    return render(request, 'index.html', {})
+    return render(request, 'index.html', {'stream_url': settings.STREAM_URL})
 
 @basic_auth_required
 def start(request):
