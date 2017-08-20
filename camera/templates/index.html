@@ -1,24 +1,14 @@
 <html>
     <head>
         {% load static %}
-        <link href="{% static '/css/videojs/video-js.css' %}" rel="stylesheet">
         <link href="{% static '/css/bootstrap.min.css' %}" rel="stylesheet">
         <link href="{% static '/css/bootstrap-theme.min.css' %}" rel="stylesheet">
         <link href="{% static '/css/camera.css' %}" rel="stylesheet">
         
-        <script src="{% static '/js/videojs/video.js' %}"></script>
-        <script src="{% static '/js/videojs/videojs-flash.js' %}"></script>
-        <script src="{% static '/js/videojs/videojs-contrib-hls.js' %}"></script>
         <script src="{% static '/js/jquery-3.2.1.min.js' %}"></script>
         <script src="{% static '/js/bootstrap.min.js' %}"></script>
         <script src="{% static '/js/camera.js' %}"></script>
 
-        <script>
-            var videoHtml = 
-            '<video id="camera-stream" width="640" height="360" class="video-js vjs-default-skin" controls autoplay>' +
-            '<source src="{{ stream_url  }}" type="application/x-mpegURL"/>' +
-            '</video>';
-        </script>
     </head>
     <body>
         <div class="jumbotron text-center">
@@ -30,7 +20,6 @@
                     <button type="button" class="btn btn-success" onclick="start()">Start</button>
                     <button type="button" class="btn btn-danger" onclick="stop()">Stop</button>
                 </div>
-                <div id="stream-wrapper"></div>
             </div>
         </div>
     </body>

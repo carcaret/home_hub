@@ -12,29 +12,11 @@ $(document).ready(function() {
 });
 
 function start() {
-    if (!isVideoPresent()) {
-        put('/camera/start/', async function() { 
-                $('#stream-wrapper').html(videoHtml);
-                await sleep(2000);
-                videojs('camera-stream'); 
-            });
-    }
-}
-
-function sleep(ms) {
-      return new Promise(resolve => setTimeout(resolve, ms));
+    put('/camera/start/', function() {});
 }
 
 function stop() {
-    put('/camera/stop/', function() { 
-        if (isVideoPresent()) {
-            videojs('camera-stream').dispose();
-        }
-    });
-}
-
-function isVideoPresent() {
-    return $('#stream-wrapper').children().length > 0;
+    put('/camera/stop/', function() {});
 }
 
 function put(url, callback) {
