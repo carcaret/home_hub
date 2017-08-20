@@ -9,14 +9,39 @@ $(document).ready(function() {
             }
         }
     });
+    updateLeds(checkStatus());
 });
 
+function checkStatus() {
+    $.ajax({
+        url: '/camera/status',
+        type: 'GET',
+        success: function(data) {
+            return data.isOn;
+        }
+    });
+}
+
+function updateLeds(isOn) {
+    if(isOn == true) {
+        $('#led-green').removeClass().addClass('led-green');
+        $('#led-red').removeClass().addClass('led-disabled');
+    } else {
+        $('#led-green').removeClass().addClass('led-disabled');
+        $('#led-red').removeClass().addClass('led-red');
+    }
+}
+
 function start() {
-    put('/camera/start/', function() {});
+    put('/camera/start/', function() {
+            updateLeds(true);
+        });
 }
 
 function stop() {
-    put('/camera/stop/', function() {});
+    put('/camera/stop/', function() {
+            updateLeds(false);
+        });
 }
 
 function put(url, callback) {

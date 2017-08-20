@@ -4,6 +4,7 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.index),
+    url(r'^status/', views.status),
     url(r'^start/', views.start),
     url(r'^stop/', views.stop),
 ]

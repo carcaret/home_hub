@@ -7,6 +7,7 @@ from django.conf import settings
 
 from home_hub.security import basic_auth_required
 
+from .picam import isOn 
 from .picam import start_picam
 from .picam import stop_picam
 
@@ -14,6 +15,14 @@ from .picam import stop_picam
 @ensure_csrf_cookie
 def index(request, *args, **kwargs):
     return render(request, 'index.html', {'stream_url': settings.STREAM_URL})
+
+def status(request):
+    if request.method == 'GET':
+        return JsonResponse({'isOn': isOn()})
+    else:
+        return HttpResponse(status=405) 
+
+
 
 @basic_auth_required
 def start(request):

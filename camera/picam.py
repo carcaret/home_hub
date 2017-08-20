@@ -4,9 +4,14 @@ from subprocess import call,check_output,CalledProcessError
 
 from django.conf import settings
 
+def isOn():
+    if not get_pids('picam'):
+        return False
+    else:
+        return True
+
 def start_picam():
-    pids = get_pids('picam')
-    if not pids:
+    if not isOn():
         call(settings.PICAM_COMMAND, shell=True)
 
 def stop_picam():
