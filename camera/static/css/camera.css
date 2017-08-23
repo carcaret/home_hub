@@ -13,6 +13,10 @@
     float: right;
 }
 
+.stream-wrapper {
+    clear: both;
+}
+
 .led-box {
     height: 30px;
     width: 25%;

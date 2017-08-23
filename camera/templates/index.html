@@ -19,22 +19,24 @@
     </div>
     <div class="container">
         <div class="center">
-            <div class="btn-wrapper">
-                <button type="button" class="btn btn-success" onclick="start()">Start</button>
-                <button type="button" class="btn btn-danger" onclick="stop()">Stop</button>
+            <div class="menu-wrapper">
+                <div class="btn-wrapper">
+                    <button type="button" class="btn btn-success" onclick="start()">Start</button>
+                    <button type="button" class="btn btn-danger" onclick="stop()">Stop</button>
+                </div>
+                <div class="led-wrapper">
+                    <div class="led-box">
+                        <div id="led-red"></div>
+                    </div>
+                    <div class="led-box">
+                        <div id="led-green"></div>
+                    </div>
+                </div>
             </div>
-            <div class="led-wrapper">
-                <div class="led-box">
-                    <div id="led-red"></div>
-                </div>
-                <div class="led-box">
-                    <div id="led-green"></div>
-                </div>
-                <div id="stream-wrapper">
-                    <video id="camera-stream" width="640" height="360" class="video-js vjs-default-skin" controls autoplay>
-                    </video>
-                    <input id="stream-url" type="hidden" value="{{ stream_url }}">
-                </div>
+            <div class="stream-wrapper">
+                <video id="camera-stream" width="640" height="360" class="video-js vjs-default-skin" controls autoplay>
+                </video>
+                <input id="stream-url" type="hidden" value="{{ stream_url }}">
             </div>
         </div>
 </body>
