@@ -12,29 +12,23 @@ $(document).ready(function() {
 });
 
 function start() {
-    if (!isVideoPresent()) {
-        put('/camera/start/', async function() { 
-                $('#stream-wrapper').html(videoHtml);
-                await sleep(2000);
-                videojs('camera-stream'); 
-            });
-    }
-}
-
-function sleep(ms) {
-      return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-function stop() {
-    put('/camera/stop/', function() { 
-        if (isVideoPresent()) {
-            videojs('camera-stream').dispose();
-        }
+    put('/camera/start/', async function() {
+        await sleep(2000); // we give time for picam to start streaming
+        var streamUrl = $("#stream-url").val(); 
+        videojs('camera-stream').src({
+            src: streamUrl,
+            type: 'application/x-mpegURL'
+        }); 
     });
 }
 
-function isVideoPresent() {
-    return $('#stream-wrapper').children().length > 0;
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function stop() {
+    videojs('camera-stream').reset();
+    put('/camera/stop/', function() {});
 }
 
 function put(url, callback) {

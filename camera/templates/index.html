@@ -30,7 +30,11 @@
                     <button type="button" class="btn btn-success" onclick="start()">Start</button>
                     <button type="button" class="btn btn-danger" onclick="stop()">Stop</button>
                 </div>
-                <div id="stream-wrapper"></div>
+                <div id="stream-wrapper">
+                    <video id="camera-stream" width="640" height="360" class="video-js vjs-default-skin" controls autoplay>
+                    </video>
+                    <input id="stream-url" type="hidden" value="{{ stream_url }}">
+                </div>
             </div>
         </div>
     </body>
