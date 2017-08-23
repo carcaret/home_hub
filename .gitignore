@@ -4,5 +4,5 @@
 hooks
 rec
 state
-home_hub/security.ini
+security.ini
 static

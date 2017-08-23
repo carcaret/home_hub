@@ -33,15 +33,25 @@ function updateLeds(isOn) {
 }
 
 function start() {
-    put('/camera/start/', function() {
-            updateLeds(true);
+    put('/camera/start/', async function() {
+        await sleep(2000); // we give time for picam to start streaming
+        var streamUrl = $("#stream-url").val(); 
+        videojs('camera-stream').src({
+            src: streamUrl,
+            type: 'application/x-mpegURL'
         });
+        updateLeds(true);
+    });
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 function stop() {
-    put('/camera/stop/', function() {
-            updateLeds(false);
-        });
+    videojs('camera-stream').reset();
+    put('/camera/stop/', function() {});
+    updateLeds(false);
 }
 
 function put(url, callback) {

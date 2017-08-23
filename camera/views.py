@@ -1,3 +1,6 @@
+import os
+import configparser
+
 from django.utils.decorators import method_decorator 
 from django.views.decorators.csrf import ensure_csrf_cookie 
 from django.views.generic import TemplateView
@@ -11,18 +14,20 @@ from .picam import isOn
 from .picam import start_picam
 from .picam import stop_picam
 
+config = configparser.ConfigParser()
+config.read(os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir, 'security.ini'))
+
 @basic_auth_required 
 @ensure_csrf_cookie
 def index(request, *args, **kwargs):
     return render(request, 'index.html', {'stream_url': settings.STREAM_URL})
 
+@basic_auth_required
 def status(request):
     if request.method == 'GET':
         return JsonResponse({'isOn': isOn()})
     else:
         return HttpResponse(status=405) 
-
-
 
 @basic_auth_required
 def start(request):
@@ -39,3 +44,10 @@ def stop(request):
         return JsonResponse({'message': 'Stopped!'})
     else:
         return HttpResponse(status=405) 
+
+@basic_auth_required
+def enckey(request):
+    if request.method == 'GET':
+        return HttpResponse(bytes.fromhex(config['STREAM']['key']), content_type='application/octet-stream')
+    else:
+        return HttpResponse(status=405)
