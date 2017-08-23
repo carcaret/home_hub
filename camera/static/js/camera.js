@@ -9,15 +9,15 @@ $(document).ready(function() {
             }
         }
     });
-    updateLeds(checkStatus());
+    checkStatus(function(input) { updateLeds(input) });
 });
 
-function checkStatus() {
+function checkStatus(callback) {
     $.ajax({
         url: '/camera/status',
         type: 'GET',
         success: function(data) {
-            return data.isOn;
+            callback(data.isOn);
         }
     });
 }
