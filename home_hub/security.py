@@ -9,7 +9,7 @@ from django.http import HttpResponse,HttpResponseForbidden
 from django.contrib.auth import authenticate, login
 
 config = configparser.ConfigParser()
-config.read(os.path.join(os.path.dirname(__file__), 'security.ini'))
+config.read(os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir, 'security.ini'))
 
 def basic_auth_required(func):
     @wraps(func)
