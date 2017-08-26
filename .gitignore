@@ -4,5 +4,5 @@
 hooks
 rec
 state
-security.ini
 /static
+home_hub/settings/*.py

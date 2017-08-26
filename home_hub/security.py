@@ -1,15 +1,12 @@
 import os
-import configparser
 
 from base64 import b64decode
 
 from functools import wraps
 
+from django.conf import settings
 from django.http import HttpResponse,HttpResponseForbidden
 from django.contrib.auth import authenticate, login
-
-config = configparser.ConfigParser()
-config.read(os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir, 'security.ini'))
 
 def basic_auth_required(func):
     @wraps(func)
@@ -19,7 +16,7 @@ def basic_auth_required(func):
             if authmeth.lower() == 'basic':
                 auth = b64decode(auth.strip()).decode('utf-8')
                 username, password = auth.split(':', 1)
-                if username == config['LOGIN']['username'] and password == config['LOGIN']['password']:
+                if username == settings.USERNAME and password == settings.PASSWORD:
                     return func(request, *args, **kwargs)
                 else:
                     return HttpResponseForbidden('<h1>Forbidden</h1>')
@@ -28,4 +25,4 @@ def basic_auth_required(func):
         res['WWW-Authenticate'] = 'Basic'
         return res
     return _decorator
-                    
+

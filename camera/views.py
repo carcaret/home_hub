@@ -1,5 +1,4 @@
 import os
-import configparser
 
 from django.utils.decorators import method_decorator 
 from django.views.decorators.csrf import ensure_csrf_cookie 
@@ -13,9 +12,6 @@ from home_hub.security import basic_auth_required
 from .picam import isOn 
 from .picam import start_picam
 from .picam import stop_picam
-
-config = configparser.ConfigParser()
-config.read(os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir, 'security.ini'))
 
 @basic_auth_required 
 @ensure_csrf_cookie
@@ -48,6 +44,6 @@ def stop(request):
 @basic_auth_required
 def enckey(request):
     if request.method == 'GET':
-        return HttpResponse(bytes.fromhex(config['STREAM']['key']), content_type='application/octet-stream')
+        return HttpResponse(bytes.fromhex(settings.STREAM_KEY), content_type='application/octet-stream')
     else:
         return HttpResponse(status=405)
