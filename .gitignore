@@ -5,4 +5,5 @@ hooks
 rec
 state
 /static
-home_hub/settings/*.py
+home_hub/db.sqlite3
+home_hub/settings/prod.py
