@@ -1,8 +1,5 @@
-from channels.routing import route
-
-def message_handler(message):
-    print(message['text'])
+from channels.routing import include
 
 channel_routing = [
-    route("websocket.receive", message_handler),
+    include('camera.routing.websocket_routing', path=r'^/camera/?'),
 ]
