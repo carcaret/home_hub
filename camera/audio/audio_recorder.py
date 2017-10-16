@@ -9,26 +9,38 @@ CHANNELS = 1
 RATE = 44100
 CHUNK = 16384
 SECONDS = 5
- 
-def rms(audio_buffer):
-    return audioop.rms(bytes(audio_buffer.get()), 2)
 
-audio = pyaudio.PyAudio()
-   
-stream = audio.open(format=FORMAT, channels=CHANNELS,
-                    input_device_index=2,
-                    rate=RATE, input=True,
-                    frames_per_buffer=CHUNK)
+class Recorder:
+    def __init__(self):
+        self.observers = []
+        self.audio = pyaudio.PyAudio()
+        self.audio_buffer = Buffer(RATE * SECONDS)
+        self.rms_buffer = PBuffer(int(RATE / CHUNK * SECONDS))
 
-audio_buffer = Buffer(RATE * SECONDS)
-rms_buffer = PBuffer(int(RATE / CHUNK * SECONDS))
+    def register_observer(self, observer):
+        self.observers.append(observer)
 
-while(True):
-    for i in range(0, int(RATE / CHUNK)):
-        audio_buffer.put(stream.read(CHUNK))
-    rms_buffer.put([rms(audio_buffer)])
-                                  
-stream.stop_stream()
-stream.close()
-audio.terminate()
+    def update_observers(self, *args, **kwargs):
+        for observer in self.observers:
+            observer.update(*args, **kwargs)
+
+    def rms(self):
+        return audioop.rms(bytes(self.audio_buffer.get()), 2)
+
+    def start(self):
+        self.stream = self.audio.open(format=FORMAT, channels=CHANNELS,
+                        input_device_index=2,
+                        rate=RATE, input=True,
+                        frames_per_buffer=CHUNK)
+
+        while(True):
+            for i in range(0, int(RATE / CHUNK)):
+                self.audio_buffer.put(self.stream.read(CHUNK))
+            self.rms_buffer.put([self.rms()])
+            self.update_observers(self.rms_buffer.percentile(50))
+            
+    def stop(self):
+        self.stream.stop_stream()
+        self.stream.close()
+        self.audio.terminate()
 
