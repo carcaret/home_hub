@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'channels',
     'camera',
 ]
 
@@ -59,6 +60,16 @@ DATABASES = {
 }
 
 ROOT_URLCONF = 'home_hub.urls'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'asgi_redis.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [('localhost', 6379)],
+        },
+        'ROUTING': 'home_hub.routing.channel_routing',
+    }
+}
 
 TEMPLATES = [
     {
