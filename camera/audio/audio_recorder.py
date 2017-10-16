@@ -1,8 +1,8 @@
 import pyaudio
 import audioop
 
-from basic_buffer import Buffer
-from percentile_buffer import PBuffer
+from .basic_buffer import Buffer
+from .percentile_buffer import PBuffer
 
 FORMAT = pyaudio.paInt16
 CHANNELS = 1
