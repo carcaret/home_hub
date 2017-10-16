@@ -11,10 +11,28 @@
     <script src="{% static '/js/jquery-3.2.1.min.js' %}"></script>
     <script src="{% static '/js/bootstrap.min.js' %}"></script>
     <script src="{% static '/js/camera.js' %}"></script>
+
+    <script>
+        var socket = new WebSocket('ws://' + window.location.host + '/camera/');
+
+        socket.onopen = function open() {
+            console.log('WebSockets connection created.');
+        };
+
+        if (socket.readyState == WebSocket.OPEN) {
+            socket.onopen();
+        }
+
+        socket.onmessage = function message(event) {
+            var data = JSON.parse(event.data);
+            console.log(data);
+        }
+    </script>
+
 </head>
 <body>
     <div class="jumbotron text-center">
-        <h1>Babytron 2000</h1>
+        <h1>2000</h1>
         <a class="btn btn-primary" href="/logout" role="button" style="float:right; margin-right:15px;">Logout</a>
     </div>
     <div class="container">

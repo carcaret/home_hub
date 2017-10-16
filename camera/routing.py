@@ -1,8 +1,10 @@
+import json
+from channels import Group
 from channels.routing import route
 
-def message_handler(message):
-    print(message['text'])
+from .audio_socket import ws_connect
 
 websocket_routing = [
-    route("websocket.receive", message_handler),
+    route("websocket.connect", ws_connect),
 ]
+

@@ -1,6 +1,6 @@
 import numpy
 
-from basic_buffer import Buffer
+from .basic_buffer import Buffer
 
 class PBuffer(Buffer):
     

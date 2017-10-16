@@ -1,8 +1,8 @@
 import pyaudio
 import audioop
 
-from basic_buffer import Buffer
-from percentile_buffer import PBuffer
+from .basic_buffer import Buffer
+from .percentile_buffer import PBuffer
 
 FORMAT = pyaudio.paInt16
 CHANNELS = 1
@@ -20,9 +20,9 @@ class Recorder:
     def register_observer(self, observer):
         self.observers.append(observer)
 
-    def update_observers(self, *args, **kwargs):
+    def update_observers(self, arg):
         for observer in self.observers:
-            observer.update(*args, **kwargs)
+            observer.update(arg)
 
     def rms(self):
         return audioop.rms(bytes(self.audio_buffer.get()), 2)
