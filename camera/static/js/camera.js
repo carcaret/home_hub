@@ -85,22 +85,22 @@ function put(url, callback) {
 function fillProgress(value) {
     if (value < 0.3) {
         var green = value*100;
-        $('.progress-bar.bg-success').css('width', green + '%');
-        $('.progress-bar.bg-warning').css('width', '0%');
-        $('.progress-bar.bg-danger').css('width', '0%');
+        document.querySelector('.progress-bar.bg-success').style.width = green + '%';
+        document.querySelector('.progress-bar.bg-warning').style.width = '0%';
+        document.querySelector('.progress-bar.bg-danger').style.width = '0%';
     } else if (value < 0.6) {
         var green = 30;
         var yellow = (value-0.3)*100;
-        $('.progress-bar.bg-success').css('width', green + '%');
-        $('.progress-bar.bg-warning').css('width', yellow + '%');
-        $('.progress-bar.bg-danger').css('width', '0%');
+        document.querySelector('.progress-bar.bg-success').style.width = green + '%';
+        document.querySelector('.progress-bar.bg-warning').style.width = yellow + '%';
+        document.querySelector('.progress-bar.bg-danger').style.width = '0%';
     } else {
         var green = 30;
         var yellow = 30;
         var red = (value-0.6)*100;
-        $('.progress-bar.bg-success').css('width', green + '%');
-        $('.progress-bar.bg-warning').css('width', yellow + '%');
-        $('.progress-bar.bg-danger').css('width', red + '%');
+        document.querySelector('.progress-bar.bg-success').style.width = green + '%';
+        document.querySelector('.progress-bar.bg-warning').style.width = yellow + '%';
+        document.querySelector('.progress-bar.bg-danger').style.width = red + '%';
     }
 }
 
