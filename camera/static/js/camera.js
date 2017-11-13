@@ -10,6 +10,7 @@ $(document).ready(function() {
         }
     });
     checkStatus(function(input) { updateLeds(input) });
+    initSocket();
 });
 
 function checkStatus(callback) {
@@ -20,6 +21,23 @@ function checkStatus(callback) {
             callback(data.isOn);
         }
     });
+}
+
+function initSocket() {
+    var socket = new WebSocket('ws://' + window.location.host + '/camera/');
+
+    socket.onopen = function open() {
+        console.log('WebSockets connection created.');
+    };
+
+    if (socket.readyState == WebSocket.OPEN) {
+        socket.onopen();
+    }
+
+    socket.onmessage = function message(event) {
+        var data = JSON.parse(event.data);
+        fillProgress(data.value);
+    }
 }
 
 function updateLeds(isOn) {
@@ -63,6 +81,29 @@ function put(url, callback) {
         }
     });
 }
+
+function fillProgress(value) {
+    if (value < 0.3) {
+        var green = value*100;
+        $('.progress-bar.bg-success').css('width', green + '%');
+        $('.progress-bar.bg-warning').css('width', '0%');
+        $('.progress-bar.bg-danger').css('width', '0%');
+    } else if (value < 0.6) {
+        var green = 30;
+        var yellow = (value-0.3)*100;
+        $('.progress-bar.bg-success').css('width', green + '%');
+        $('.progress-bar.bg-warning').css('width', yellow + '%');
+        $('.progress-bar.bg-danger').css('width', '0%');
+    } else {
+        var green = 30;
+        var yellow = 30;
+        var red = (value-0.6)*100;
+        $('.progress-bar.bg-success').css('width', green + '%');
+        $('.progress-bar.bg-warning').css('width', yellow + '%');
+        $('.progress-bar.bg-danger').css('width', red + '%');
+    }
+}
+
 function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie != '') {
