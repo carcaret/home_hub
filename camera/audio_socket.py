@@ -21,7 +21,7 @@ class Sender:
     def update(self, arg):
         self.channel.send({
             "text": json.dumps({
-                "message": self.normalize(arg),
+                "value": self.normalize(arg),
             })
         })
 
