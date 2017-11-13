@@ -1,0 +1,55 @@
+<template id="sound-meter-template">
+<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+<div class="progress">
+    <div class="progress-bar bg-success" role="progressbar" ></div>
+    <div class="progress-bar bg-warning" role="progressbar" ></div>
+    <div class="progress-bar bg-danger" role="progressbar" ></div>
+</div>
+</template>
+
+<script>
+customElements.define('sound-meter', class extends HTMLElement {
+    static get observedAttributes() { return ['level']  }
+
+    constructor() {
+        super();
+        var doc = document.currentScript ? document.currentScript.ownerDocument : document;
+        const template = doc.querySelector('#sound-meter-template');
+        this.attachShadow({mode: 'open'});
+        this.shadowRoot.appendChild(template.content.cloneNode(true));
+    }
+
+    fillProgress(value) {
+        if (value < 0.3) {
+            var green = value*100;
+            this.shadowRoot.querySelector('.progress-bar.bg-success').style.width = green + '%';
+            this.shadowRoot.querySelector('.progress-bar.bg-warning').style.width = '0%';
+            this.shadowRoot.querySelector('.progress-bar.bg-danger').style.width = '0%';
+        } else if (value < 0.6) {
+            var green = 30;
+            var yellow = (value-0.3)*100;
+            this.shadowRoot.querySelector('.progress-bar.bg-success').style.width = green + '%';
+            this.shadowRoot.querySelector('.progress-bar.bg-warning').style.width = yellow + '%';
+            this.shadowRoot.querySelector('.progress-bar.bg-danger').style.width = '0%';
+        } else {
+            var green = 30;
+            var yellow = 30;
+            var red = (value-0.6)*100;
+            this.shadowRoot.querySelector('.progress-bar.bg-success').style.width = green + '%';
+            this.shadowRoot.querySelector('.progress-bar.bg-warning').style.width = yellow + '%';
+            this.shadowRoot.querySelector('.progress-bar.bg-danger').style.width = red + '%';
+        }
+    }
+
+    attributeChangedCallback(attr, oldValue, newValue) {
+        if (oldValue === newValue)     {
+            return;
+        }
+        switch (attr) {
+            case 'level':
+                this.fillProgress(newValue);
+        }
+    }
+});
+
+</script>

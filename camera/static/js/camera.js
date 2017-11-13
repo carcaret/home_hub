@@ -36,7 +36,7 @@ function initSocket() {
 
     socket.onmessage = function message(event) {
         var data = JSON.parse(event.data);
-        fillProgress(data.value);
+        document.getElementById('sound').setAttribute('level', data.value);
     }
 }
 
@@ -80,28 +80,6 @@ function put(url, callback) {
             callback();
         }
     });
-}
-
-function fillProgress(value) {
-    if (value < 0.3) {
-        var green = value*100;
-        document.querySelector('.progress-bar.bg-success').style.width = green + '%';
-        document.querySelector('.progress-bar.bg-warning').style.width = '0%';
-        document.querySelector('.progress-bar.bg-danger').style.width = '0%';
-    } else if (value < 0.6) {
-        var green = 30;
-        var yellow = (value-0.3)*100;
-        document.querySelector('.progress-bar.bg-success').style.width = green + '%';
-        document.querySelector('.progress-bar.bg-warning').style.width = yellow + '%';
-        document.querySelector('.progress-bar.bg-danger').style.width = '0%';
-    } else {
-        var green = 30;
-        var yellow = 30;
-        var red = (value-0.6)*100;
-        document.querySelector('.progress-bar.bg-success').style.width = green + '%';
-        document.querySelector('.progress-bar.bg-warning').style.width = yellow + '%';
-        document.querySelector('.progress-bar.bg-danger').style.width = red + '%';
-    }
 }
 
 function getCookie(name) {
